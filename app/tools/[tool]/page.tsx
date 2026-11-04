@@ -1,7 +1,5 @@
-"use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import {
   ArrowLeft,
   FileText,
@@ -34,9 +32,18 @@ const toolDetails: Record<
   },
 };
 
-export default function ToolComingSoonPage() {
-  const params = useParams();
-  const tool = String(params.tool || "");
+export function generateStaticParams() {
+  return Object.keys(toolDetails).map((tool) => ({
+    tool,
+  }));
+}
+
+export default async function ToolComingSoonPage({
+  params,
+}: {
+  params: Promise<{ tool: string }>;
+}) {
+  const { tool } = await params;
   const details = toolDetails[tool];
 
   if (!details) {
