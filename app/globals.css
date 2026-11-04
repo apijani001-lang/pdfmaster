@@ -1320,3 +1320,61 @@ body {
     flex-direction: column;
   }
 }
+/* ==========================================
+   PDFMASTER ACCESSIBILITY CONTRAST FIX
+   Only text colors are improved.
+   Existing layout and design remain unchanged.
+========================================== */
+
+/* Improve secondary text readability */
+:root {
+  --muted: #535d75;
+}
+
+/* Improve small purple text readability */
+.eyebrow,
+.tool-count,
+.tool-category,
+.tool-coming,
+.merge-label {
+  color: #5938c5;
+}
+
+/* Improve hero badge text contrast */
+.hero-badge {
+  color: #5938c5;
+}
+
+/* Improve text on soft purple background */
+.about-content .eyebrow {
+  color: #5938c5;
+}
+
+/* Improve dark mode readability */
+html.dark {
+  --muted: #c4bfd5;
+}
+
+html.dark .eyebrow,
+html.dark .tool-count,
+html.dark .tool-category,
+html.dark .tool-coming,
+html.dark .merge-label,
+html.dark .hero-badge,
+html.dark .about-content .eyebrow {
+  color: #c5b4ff;
+}
+
+/* Keep keyboard navigation clearly visible */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #5938c5;
+  outline-offset: 3px;
+}
+
+html.dark a:focus-visible,
+html.dark button:focus-visible,
+html.dark input:focus-visible {
+  outline-color: #c5b4ff;
+}
