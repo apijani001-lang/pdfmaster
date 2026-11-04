@@ -15,7 +15,91 @@ import {
   FileType,
   X,
   ArrowLeft,
+  ArrowRight,
+  Layers,
+  HelpCircle,
 } from "lucide-react";
+
+const faqs = [
+  {
+    question: "How do I convert Word to PDF online?",
+    answer:
+      "Select your DOCX Word document, click Convert & Download PDF, and wait for the conversion to finish. Your PDF file will then be downloaded to your device.",
+  },
+  {
+    question: "Which Word file format is supported?",
+    answer:
+      "This converter currently supports DOCX files. Older DOC files are not supported by this version.",
+  },
+  {
+    question: "Is this Word to PDF converter free?",
+    answer:
+      "Yes. PDFMaster provides this Word to PDF conversion tool free to use without requiring an account.",
+  },
+  {
+    question: "Are my Word documents uploaded to a server?",
+    answer:
+      "The conversion is performed in your browser. The selected DOCX file is processed locally by the conversion libraries used on this page.",
+  },
+  {
+    question: "Will the original Word formatting be preserved?",
+    answer:
+      "This version extracts readable text from your DOCX document and creates a PDF from that text. Complex formatting, images, tables, headers and footers may not be preserved exactly.",
+  },
+  {
+    question: "Can I convert a DOCX file on my phone?",
+    answer:
+      "You can use this page in a supported mobile browser. Select a DOCX document from your device and start the conversion.",
+  },
+  {
+    question: "What happens if my Word document has no readable text?",
+    answer:
+      "The converter will display an error if it cannot find readable text in the document. Check that your DOCX file contains text and try again.",
+  },
+  {
+    question: "Can I edit the PDF after conversion?",
+    answer:
+      "The downloaded PDF can be opened with a PDF reader. Editing its contents depends on the PDF editing software you use.",
+  },
+];
+
+const relatedTools = [
+  {
+    title: "PDF to Word",
+    description: "Convert PDF documents into Word files.",
+    href: "/tools/pdf-to-word",
+  },
+  {
+    title: "JPG to PDF",
+    description: "Combine JPG and PNG images into a PDF.",
+    href: "/tools/jpg-to-pdf",
+  },
+  {
+    title: "PDF to JPG",
+    description: "Convert PDF pages into JPG images.",
+    href: "/tools/pdf-to-jpg",
+  },
+  {
+    title: "Merge PDF",
+    description: "Combine multiple PDF files into one.",
+    href: "/tools/merge-pdf",
+  },
+  {
+    title: "Split PDF",
+    description: "Separate pages from a PDF document.",
+    href: "/tools/split-pdf",
+  },
+  {
+    title: "Compress PDF",
+    description: "Reduce the size of PDF documents.",
+    href: "/tools/compress-pdf",
+  },
+  {
+    title: "Protect PDF",
+    description: "Add password protection to PDF files.",
+    href: "/tools/protect-pdf",
+  },
+];
 
 export default function WordToPdfPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -173,287 +257,80 @@ export default function WordToPdfPage() {
   };
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        padding: "35px 18px 70px",
-        background:
-          "radial-gradient(ellipse at 50% 0%, #f0eaff 0%, #f8f7fc 48%, #f8f7fc 100%)",
-        color: "#211b32",
-      }}
-    >
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <Link
-          href="/"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 9,
-            color: "#7542d8",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 700,
-            marginBottom: 38,
-          }}
-        >
+    <main className="word-page">
+      <div className="word-container">
+        <Link href="/" className="word-back-link">
           <ArrowLeft size={18} />
           Back to PDFMaster
         </Link>
 
-        <header
-          style={{
-            textAlign: "center",
-            marginBottom: 34,
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              width: 76,
-              height: 76,
-              margin: "0 auto 19px",
-              borderRadius: 23,
-              background:
-                "linear-gradient(135deg, #eee5ff, #e4d7ff)",
-              color: "#7542d8",
-              display: "grid",
-              placeItems: "center",
-              boxShadow: "0 8px 25px rgba(117,66,216,0.10)",
-            }}
-          >
+        <header className="word-hero">
+          <div className="word-hero-icon">
             <FileType size={35} />
           </div>
 
-          <div
-            style={{
-              display: "inline-block",
-              padding: "6px 12px",
-              borderRadius: 30,
-              background: "#eee7fb",
-              color: "#7542d8",
-              fontSize: 11,
-              fontWeight: 800,
-              letterSpacing: 1.2,
-              marginBottom: 13,
-            }}
-          >
-            PDF CONVERTER
-          </div>
+          <div className="word-eyebrow">FREE ONLINE PDF TOOL</div>
 
-          <h1
-            style={{
-              fontSize: "clamp(29px, 5vw, 42px)",
-              lineHeight: 1.15,
-              letterSpacing: -1.2,
-              fontWeight: 800,
-              margin: "0 0 13px",
-              color: "#211b32",
-              textAlign: "center",
-            }}
-          >
-            Word to PDF Converter
-          </h1>
+          <h1>Word to PDF Converter</h1>
 
-          <p
-            style={{
-              maxWidth: 570,
-              margin: "0 auto",
-              color: "#777184",
-              fontSize: 15,
-              lineHeight: 1.8,
-              textAlign: "center",
-            }}
-          >
-            Convert your Word DOCX documents into PDF files.
-            Upload your document and download the converted PDF.
+          <p>
+            Convert Word DOCX documents into PDF files online.
+            Select your document, create a PDF and download it
+            directly to your device with our easy-to-use converter.
           </p>
         </header>
 
-        <section
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            background: "#fff",
-            border: "1px solid #e9e3f1",
-            borderRadius: 22,
-            padding: "clamp(18px, 4vw, 32px)",
-            boxShadow: "0 15px 45px rgba(40,20,80,0.07)",
-          }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: 22,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 18,
-                fontWeight: 800,
-                margin: 0,
-                color: "#282039",
-                textAlign: "center",
-              }}
-            >
-              Upload Word Document
-            </h2>
-
-            <p
-              style={{
-                color: "#888195",
-                fontSize: 13,
-                margin: "7px 0 0",
-                textAlign: "center",
-              }}
-            >
-              Select a DOCX file from your device
-            </p>
+        <section className="word-workspace">
+          <div className="word-workspace-heading">
+            <h2>Upload Word Document</h2>
+            <p>Select a DOCX file from your device</p>
           </div>
 
           {!file ? (
             <div
+              className="word-upload-box"
               onDragOver={(event) => event.preventDefault()}
               onDrop={(event) => {
                 event.preventDefault();
                 handleFile(event.dataTransfer.files?.[0]);
               }}
               onClick={() => fileInputRef.current?.click()}
-              style={{
-                minHeight: 190,
-                boxSizing: "border-box",
-                border: "2px dashed #cbb8ed",
-                borderRadius: 16,
-                cursor: "pointer",
-                background: "#fbf9ff",
-                padding: "28px 18px",
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  fileInputRef.current?.click();
+                }
               }}
+              role="button"
+              tabIndex={0}
+              aria-label="Select or drop a Word DOCX document"
             >
-              <div
-                style={{
-                  width: 58,
-                  height: 58,
-                  borderRadius: 17,
-                  background: "#eee5ff",
-                  color: "#7542d8",
-                  display: "grid",
-                  placeItems: "center",
-                  marginBottom: 13,
-                }}
-              >
+              <div className="word-upload-icon">
                 <Upload size={28} />
               </div>
 
-              <strong
-                style={{
-                  fontSize: 16,
-                  color: "#302641",
-                  textAlign: "center",
-                }}
-              >
-                Click to select Word file
-              </strong>
+              <strong>Click to select Word file</strong>
 
-              <span
-                style={{
-                  color: "#888195",
-                  fontSize: 13,
-                  marginTop: 7,
-                  textAlign: "center",
-                }}
-              >
+              <span>
                 Or drag and drop your DOCX document here
               </span>
 
-              <span
-                style={{
-                  display: "inline-block",
-                  marginTop: 15,
-                  padding: "9px 18px",
-                  borderRadius: 10,
-                  background: "#7542d8",
-                  color: "#fff",
-                  fontSize: 13,
-                  fontWeight: 700,
-                }}
-              >
+              <span className="word-browse-button">
                 Browse Files
               </span>
 
-              <span
-                style={{
-                  color: "#9991a5",
-                  fontSize: 11,
-                  marginTop: 12,
-                }}
-              >
-                Supported format: .DOCX
-              </span>
+              <small>Supported format: .DOCX</small>
             </div>
           ) : (
-            <div
-              style={{
-                border: "1px solid #eee9f5",
-                borderRadius: 15,
-                padding: 16,
-                background: "#fbf9ff",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 12,
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 12,
-                    background: "#eee5ff",
-                    color: "#7542d8",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
+            <div className="word-selected-file">
+              <div className="word-file-details">
+                <div className="word-file-icon">
                   <FileText size={25} />
                 </div>
 
-                <div
-                  style={{
-                    flex: "1 1 180px",
-                    minWidth: 0,
-                    textAlign: "center",
-                  }}
-                >
-                  <strong
-                    style={{
-                      display: "block",
-                      color: "#302641",
-                      fontSize: 13,
-                      overflowWrap: "anywhere",
-                    }}
-                  >
-                    {file.name}
-                  </strong>
-
-                  <span
-                    style={{
-                      display: "block",
-                      color: "#888195",
-                      fontSize: 12,
-                      marginTop: 5,
-                    }}
-                  >
+                <div className="word-file-name">
+                  <strong>{file.name}</strong>
+                  <span>
                     {formatSize(file.size)} · DOCX document
                   </span>
                 </div>
@@ -463,79 +340,30 @@ export default function WordToPdfPage() {
                   onClick={reset}
                   disabled={loading}
                   aria-label="Remove file"
-                  style={{
-                    width: 36,
-                    height: 36,
-                    border: "1px solid #eee9f5",
-                    borderRadius: 9,
-                    background: "#fff",
-                    color: "#dc4444",
-                    display: "grid",
-                    placeItems: "center",
-                    cursor: loading ? "not-allowed" : "pointer",
-                    opacity: loading ? 0.4 : 1,
-                  }}
+                  className="word-remove-button"
                 >
                   <X size={18} />
                 </button>
               </div>
 
               {loading && (
-                <div style={{ marginTop: 22 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      color: "#7542d8",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      marginBottom: 9,
-                    }}
-                  >
+                <div className="word-progress">
+                  <div className="word-progress-label">
                     <span>Converting document...</span>
                     <span>{progress}%</span>
                   </div>
 
-                  <div
-                    style={{
-                      height: 8,
-                      overflow: "hidden",
-                      borderRadius: 20,
-                      background: "#eee7fb",
-                    }}
-                  >
+                  <div className="word-progress-track">
                     <div
-                      style={{
-                        width: `${progress}%`,
-                        height: "100%",
-                        borderRadius: 20,
-                        background:
-                          "linear-gradient(90deg, #7542d8, #9b6bea)",
-                        transition: "width 0.3s ease",
-                      }}
+                      className="word-progress-fill"
+                      style={{ width: `${progress}%` }}
                     />
                   </div>
                 </div>
               )}
 
               {success && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 9,
-                    marginTop: 18,
-                    padding: 13,
-                    borderRadius: 11,
-                    background: "#ecfdf3",
-                    border: "1px solid #bbf7d0",
-                    color: "#167344",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    textAlign: "center",
-                  }}
-                >
+                <div className="word-success">
                   <CheckCircle2 size={19} />
                   PDF downloaded successfully!
                 </div>
@@ -555,37 +383,14 @@ export default function WordToPdfPage() {
           />
 
           {error && (
-            <div
-              role="alert"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                padding: 13,
-                marginTop: 20,
-                borderRadius: 12,
-                background: "#fff1f2",
-                border: "1px solid #fecdd3",
-                color: "#be123c",
-                fontSize: 13,
-                textAlign: "center",
-              }}
-            >
+            <div className="word-error" role="alert">
               <AlertCircle size={19} />
               {error}
             </div>
           )}
 
           {file && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 11,
-                marginTop: 22,
-              }}
-            >
+            <div className="word-action-buttons">
               <button
                 type="button"
                 onClick={convertFile}
@@ -594,7 +399,7 @@ export default function WordToPdfPage() {
               >
                 {loading ? (
                   <>
-                    <RefreshCw size={19} />
+                    <RefreshCw className="word-spinner" size={19} />
                     Converting...
                   </>
                 ) : (
@@ -609,254 +414,866 @@ export default function WordToPdfPage() {
                 type="button"
                 onClick={reset}
                 disabled={loading}
-                style={{
-                  width: "100%",
-                  minHeight: 47,
-                  border: "1px solid #e9e2f3",
-                  borderRadius: 12,
-                  background: "#fff",
-                  color: "#7542d8",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: loading ? "not-allowed" : "pointer",
-                  opacity: loading ? 0.5 : 1,
-                }}
+                className="word-reset-button"
               >
                 Reset
               </button>
             </div>
           )}
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 7,
-              marginTop: 19,
-              color: "#898195",
-              fontSize: 12,
-              textAlign: "center",
-            }}
-          >
-            <ShieldCheck size={15} color="#269b68" />
+          <div className="word-privacy-note">
+            <ShieldCheck size={15} />
             Your document is processed in your browser.
           </div>
         </section>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-            gap: 13,
-            marginTop: 22,
-          }}
-        >
-          {[
-            {
-              icon: ShieldCheck,
-              title: "Privacy focused",
-              description: "Your document is processed in your browser.",
-            },
-            {
-              icon: Zap,
-              title: "Quick conversion",
-              description: "Convert your document in a few simple steps.",
-            },
-            {
-              icon: FileText,
-              title: "Simple workflow",
-              description: "Upload your Word file and download your PDF.",
-            },
-          ].map((item) => {
-            const Icon = item.icon;
+        <section className="word-features">
+          <article>
+            <ShieldCheck size={24} />
+            <h3>Browser Processing</h3>
+            <p>
+              Your selected document is processed locally in your browser.
+            </p>
+          </article>
 
-            return (
-              <div
-                key={item.title}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #eee9f5",
-                  borderRadius: 14,
-                  padding: 18,
-                  textAlign: "center",
-                }}
-              >
-                <div
-                  style={{
-                    width: 43,
-                    height: 43,
-                    margin: "0 auto 11px",
-                    borderRadius: 12,
-                    background: "#f1eaff",
-                    color: "#7542d8",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <Icon size={22} />
-                </div>
+          <article>
+            <Zap size={24} />
+            <h3>Simple Conversion</h3>
+            <p>
+              Convert your DOCX document through a straightforward workflow.
+            </p>
+          </article>
 
-                <strong
-                  style={{
-                    display: "block",
-                    color: "#302641",
-                    fontSize: 13,
-                    textAlign: "center",
-                  }}
-                >
-                  {item.title}
-                </strong>
+          <article>
+            <FileText size={24} />
+            <h3>PDF Download</h3>
+            <p>
+              Save the generated PDF document directly to your device.
+            </p>
+          </article>
+        </section>
 
-                <p
-                  style={{
-                    color: "#888195",
-                    fontSize: 12,
-                    lineHeight: 1.6,
-                    margin: "7px 0 0",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.description}
-                </p>
+        <section className="word-seo-content">
+          <div className="word-section-heading">
+            <span>PDFMASTER DOCUMENT CONVERTER</span>
+            <h2>Convert Word to PDF Online for Free</h2>
+            <p>
+              Need to turn a Word document into a PDF? PDFMaster
+              provides a simple online Word to PDF converter for
+              supported DOCX files. Select a document, start the
+              conversion and download the generated PDF without
+              installing desktop conversion software.
+            </p>
+          </div>
+
+          <div className="word-info-grid">
+            <article className="word-info-card">
+              <div className="word-info-icon">
+                <FileType size={22} />
               </div>
-            );
-          })}
-        </div>
+              <h3>DOCX to PDF Conversion</h3>
+              <p>
+                Convert supported Microsoft Word DOCX documents
+                into PDF format. The converter extracts readable
+                text and places it into a downloadable PDF file.
+              </p>
+            </article>
 
-        <section
-          style={{
-            marginTop: 22,
-            padding: "23px",
-            borderRadius: 15,
-            background: "#fff",
-            border: "1px solid #eee9f5",
-            textAlign: "center",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 18,
-              fontWeight: 800,
-              color: "#302641",
-              margin: "0 0 18px",
-              textAlign: "center",
-            }}
-          >
-            How to Convert Word to PDF
-          </h2>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-              gap: 18,
-            }}
-          >
-            {[
-              {
-                number: "01",
-                title: "Upload Word File",
-                description: "Choose your DOCX document.",
-              },
-              {
-                number: "02",
-                title: "Convert Document",
-                description: "Start the PDF conversion.",
-              },
-              {
-                number: "03",
-                title: "Download PDF",
-                description: "Save the converted PDF file.",
-              },
-            ].map((step) => (
-              <div
-                key={step.number}
-                style={{
-                  textAlign: "center",
-                  padding: 10,
-                }}
-              >
-                <div
-                  style={{
-                    width: 43,
-                    height: 43,
-                    margin: "0 auto 11px",
-                    borderRadius: 13,
-                    background: "#eee5ff",
-                    color: "#7542d8",
-                    display: "grid",
-                    placeItems: "center",
-                    fontWeight: 800,
-                    fontSize: 14,
-                  }}
-                >
-                  {step.number}
-                </div>
-
-                <strong
-                  style={{
-                    display: "block",
-                    color: "#302641",
-                    fontSize: 13,
-                  }}
-                >
-                  {step.title}
-                </strong>
-
-                <p
-                  style={{
-                    color: "#888195",
-                    fontSize: 12,
-                    lineHeight: 1.6,
-                    margin: "6px 0 0",
-                  }}
-                >
-                  {step.description}
-                </p>
+            <article className="word-info-card">
+              <div className="word-info-icon">
+                <Zap size={22} />
               </div>
-            ))}
+              <h3>Easy Online Workflow</h3>
+              <p>
+                Choose your Word document, start conversion and
+                download the result. The simple interface makes
+                the process easy to follow.
+              </p>
+            </article>
+
+            <article className="word-info-card">
+              <div className="word-info-icon">
+                <ShieldCheck size={22} />
+              </div>
+              <h3>Local Browser Processing</h3>
+              <p>
+                The conversion libraries process the selected
+                document in your browser. This page does not
+                upload your DOCX file to a conversion server.
+              </p>
+            </article>
+
+            <article className="word-info-card">
+              <div className="word-info-icon">
+                <Download size={22} />
+              </div>
+              <h3>Download Your PDF</h3>
+              <p>
+                Once conversion is complete, the generated PDF
+                is saved through your browser's download feature.
+              </p>
+            </article>
+          </div>
+
+          <div className="word-how-to">
+            <h2>How to Convert Word to PDF</h2>
+            <p>
+              Follow these steps to convert a DOCX document into PDF format.
+            </p>
+
+            <div className="word-steps">
+              <article className="word-step">
+                <span>01</span>
+                <div>
+                  <h3>Upload Your Word Document</h3>
+                  <p>
+                    Click Browse Files or drag and drop a supported
+                    DOCX document into the upload area.
+                  </p>
+                </div>
+              </article>
+
+              <article className="word-step">
+                <span>02</span>
+                <div>
+                  <h3>Start the Conversion</h3>
+                  <p>
+                    Click Convert & Download PDF. The converter
+                    extracts readable text and prepares your PDF.
+                  </p>
+                </div>
+              </article>
+
+              <article className="word-step">
+                <span>03</span>
+                <div>
+                  <h3>Download Your PDF File</h3>
+                  <p>
+                    When conversion finishes, your generated PDF
+                    is downloaded to your device.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div className="word-uses">
+            <h2>Why Convert Word Documents to PDF?</h2>
+            <p>
+              PDF files are commonly used when sharing documents
+              across different devices and operating systems.
+              A PDF can be convenient for distributing a document
+              in a widely supported file format.
+            </p>
+
+            <ul>
+              <li>Share text documents in a widely supported format.</li>
+              <li>Keep a separate PDF copy of a Word document.</li>
+              <li>Prepare text-based documents for digital distribution.</li>
+              <li>Open PDF documents with common PDF reader applications.</li>
+              <li>Organize converted documents for convenient sharing.</li>
+            </ul>
+          </div>
+
+          <div className="word-limitations">
+            <div className="word-limitations-icon">
+              <HelpCircle size={22} />
+            </div>
+            <div>
+              <h3>Important: Understand This Converter</h3>
+              <p>
+                This version extracts readable text from DOCX documents
+                and creates a PDF from that text. Complex formatting,
+                pictures, tables, headers and footers may not be
+                preserved exactly. The output is not intended to be
+                a pixel-perfect copy of the original Word document.
+              </p>
+            </div>
+          </div>
+
+          <div className="word-faq-section">
+            <div className="word-section-heading">
+              <span>HELP & SUPPORT</span>
+              <h2>Frequently Asked Questions</h2>
+              <p>
+                Common questions about converting Word DOCX files
+                into PDF documents.
+              </p>
+            </div>
+
+            <div className="word-faq-list">
+              {faqs.map((faq, index) => (
+                <details className="word-faq-item" key={index}>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 
-        <div
-          style={{
-            marginTop: 22,
-            padding: 20,
-            borderRadius: 15,
-            background: "#fff9eb",
-            border: "1px solid #f3dfb1",
-            textAlign: "center",
-          }}
-        >
-          <h3
-            style={{
-              color: "#8a5a12",
-              fontSize: 14,
-              fontWeight: 800,
-              margin: "0 0 8px",
-              textAlign: "center",
-            }}
-          >
-            Important conversion note
-          </h3>
+        <section className="word-related">
+          <div className="word-section-heading">
+            <span>MORE PDFMASTER TOOLS</span>
+            <h2>Explore More Free PDF Tools</h2>
+            <p>
+              Use other PDFMaster tools to work with your documents
+              and images online.
+            </p>
+          </div>
 
-          <p
-            style={{
-              color: "#876b3e",
-              fontSize: 12,
-              lineHeight: 1.8,
-              margin: 0,
-              textAlign: "center",
-            }}
-          >
-            This version extracts readable text from DOCX documents.
-            Complex formatting, pictures, tables, headers and footers
-            may not be preserved exactly. Documents requiring exact
-            Word layout need a full document-rendering conversion engine.
-          </p>
-        </div>
+          <div className="word-related-grid">
+            {relatedTools.map((tool) => (
+              <Link
+                href={tool.href}
+                className="word-related-card"
+                key={tool.href}
+              >
+                <div>
+                  <h3>{tool.title}</h3>
+                  <p>{tool.description}</p>
+                </div>
+                <ArrowRight size={19} />
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
+
+      <style jsx>{`
+        .word-page {
+          min-height: 100vh;
+          padding: 35px 18px 80px;
+          background: radial-gradient(
+            ellipse at 50% 0%,
+            #f0eaff 0%,
+            #f8f7fc 48%,
+            #f8f7fc 100%
+          );
+          color: #211b32;
+        }
+
+        .word-container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .word-back-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          color: #7542d8;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 700;
+          margin-bottom: 38px;
+        }
+
+        .word-hero {
+          text-align: center;
+          margin-bottom: 34px;
+        }
+
+        .word-hero-icon {
+          width: 76px;
+          height: 76px;
+          margin: 0 auto 19px;
+          border-radius: 23px;
+          background: linear-gradient(135deg, #eee5ff, #e4d7ff);
+          color: #7542d8;
+          display: grid;
+          place-items: center;
+          box-shadow: 0 8px 25px rgba(117, 66, 216, 0.1);
+        }
+
+        .word-eyebrow {
+          display: inline-block;
+          padding: 6px 12px;
+          border-radius: 30px;
+          background: #eee7fb;
+          color: #7542d8;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 1.2px;
+          margin-bottom: 13px;
+        }
+
+        .word-hero h1 {
+          font-size: clamp(29px, 5vw, 42px);
+          line-height: 1.15;
+          letter-spacing: -1.2px;
+          font-weight: 800;
+          margin: 0 0 13px;
+          color: #211b32;
+        }
+
+        .word-hero p {
+          max-width: 620px;
+          margin: 0 auto;
+          color: #777184;
+          font-size: 15px;
+          line-height: 1.8;
+        }
+
+        .word-workspace {
+          box-sizing: border-box;
+          width: 100%;
+          background: #fff;
+          border: 1px solid #e9e3f1;
+          border-radius: 22px;
+          padding: clamp(18px, 4vw, 32px);
+          box-shadow: 0 15px 45px rgba(40, 20, 80, 0.07);
+        }
+
+        .word-workspace-heading {
+          text-align: center;
+          margin-bottom: 22px;
+        }
+
+        .word-workspace-heading h2 {
+          font-size: 18px;
+          font-weight: 800;
+          margin: 0;
+          color: #282039;
+        }
+
+        .word-workspace-heading p {
+          color: #888195;
+          font-size: 13px;
+          margin: 7px 0 0;
+        }
+
+        .word-upload-box {
+          min-height: 190px;
+          box-sizing: border-box;
+          border: 2px dashed #cbb8ed;
+          border-radius: 16px;
+          cursor: pointer;
+          background: #fbf9ff;
+          padding: 28px 18px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transition: 0.2s;
+        }
+
+        .word-upload-box:hover {
+          border-color: #7542d8;
+          background: #f7f2ff;
+        }
+
+        .word-upload-icon {
+          width: 58px;
+          height: 58px;
+          border-radius: 17px;
+          background: #eee5ff;
+          color: #7542d8;
+          display: grid;
+          place-items: center;
+          margin-bottom: 13px;
+        }
+
+        .word-upload-box strong {
+          font-size: 16px;
+          color: #302641;
+        }
+
+        .word-upload-box > span:not(.word-browse-button) {
+          color: #888195;
+          font-size: 13px;
+          margin-top: 7px;
+        }
+
+        .word-browse-button {
+          display: inline-block;
+          margin-top: 15px;
+          padding: 9px 18px;
+          border-radius: 10px;
+          background: #7542d8;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .word-upload-box small {
+          color: #9991a5;
+          font-size: 11px;
+          margin-top: 12px;
+        }
+
+        .word-selected-file {
+          border: 1px solid #eee9f5;
+          border-radius: 15px;
+          padding: 16px;
+          background: #fbf9ff;
+        }
+
+        .word-file-details {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .word-file-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: #eee5ff;
+          color: #7542d8;
+          display: grid;
+          place-items: center;
+        }
+
+        .word-file-name {
+          flex: 1 1 180px;
+          min-width: 0;
+          text-align: left;
+        }
+
+        .word-file-name strong {
+          display: block;
+          color: #302641;
+          font-size: 13px;
+          overflow-wrap: anywhere;
+        }
+
+        .word-file-name span {
+          display: block;
+          color: #888195;
+          font-size: 12px;
+          margin-top: 5px;
+        }
+
+        .word-remove-button {
+          width: 36px;
+          height: 36px;
+          border: 1px solid #eee9f5;
+          border-radius: 9px;
+          background: #fff;
+          color: #dc4444;
+          display: grid;
+          place-items: center;
+          cursor: pointer;
+        }
+
+        .word-remove-button:disabled {
+          cursor: not-allowed;
+          opacity: 0.4;
+        }
+
+        .word-progress {
+          margin-top: 22px;
+        }
+
+        .word-progress-label {
+          display: flex;
+          justify-content: space-between;
+          color: #7542d8;
+          font-size: 12px;
+          font-weight: 700;
+          margin-bottom: 9px;
+        }
+
+        .word-progress-track {
+          height: 8px;
+          overflow: hidden;
+          border-radius: 20px;
+          background: #eee7fb;
+        }
+
+        .word-progress-fill {
+          height: 100%;
+          border-radius: 20px;
+          background: linear-gradient(90deg, #7542d8, #9b6bea);
+          transition: width 0.3s ease;
+        }
+
+        .word-success,
+        .word-error {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 9px;
+          margin-top: 18px;
+          padding: 13px;
+          border-radius: 11px;
+          font-size: 13px;
+          text-align: center;
+        }
+
+        .word-success {
+          background: #ecfdf3;
+          border: 1px solid #bbf7d0;
+          color: #167344;
+          font-weight: 700;
+        }
+
+        .word-error {
+          background: #fff1f2;
+          border: 1px solid #fecdd3;
+          color: #be123c;
+          margin-top: 20px;
+        }
+
+        .word-action-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+          margin-top: 22px;
+        }
+
+        .word-reset-button {
+          width: 100%;
+          min-height: 47px;
+          border: 1px solid #e9e2f3;
+          border-radius: 12px;
+          background: #fff;
+          color: #7542d8;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .word-reset-button:disabled {
+          cursor: not-allowed;
+          opacity: 0.5;
+        }
+
+        .word-privacy-note {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          margin-top: 19px;
+          color: #898195;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        .word-features {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 13px;
+          margin-top: 22px;
+        }
+
+        .word-features article {
+          background: #fff;
+          border: 1px solid #eee9f5;
+          border-radius: 14px;
+          padding: 20px 17px;
+          text-align: center;
+        }
+
+        .word-features article > svg {
+          color: #7542d8;
+        }
+
+        .word-features h3 {
+          display: block;
+          color: #302641;
+          font-size: 13px;
+          margin: 11px 0 7px;
+        }
+
+        .word-features p {
+          color: #888195;
+          font-size: 12px;
+          line-height: 1.7;
+          margin: 0;
+        }
+
+        .word-seo-content {
+          margin-top: 70px;
+        }
+
+        .word-section-heading {
+          max-width: 760px;
+          margin: 0 auto 28px;
+          text-align: center;
+        }
+
+        .word-section-heading > span {
+          color: #7542d8;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 1.7px;
+        }
+
+        .word-section-heading h2 {
+          color: #211b32;
+          font-size: clamp(24px, 4vw, 33px);
+          font-weight: 850;
+          letter-spacing: -0.7px;
+          margin: 12px 0;
+        }
+
+        .word-section-heading p {
+          color: #777184;
+          font-size: 14px;
+          line-height: 1.9;
+          margin: 0;
+        }
+
+        .word-info-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+
+        .word-info-card {
+          padding: 23px;
+          border: 1px solid #eee9f5;
+          border-radius: 16px;
+          background: #fff;
+        }
+
+        .word-info-icon {
+          width: 43px;
+          height: 43px;
+          display: grid;
+          place-items: center;
+          border-radius: 12px;
+          background: #f1eaff;
+          color: #7542d8;
+        }
+
+        .word-info-card h3 {
+          color: #302641;
+          font-size: 16px;
+          margin: 15px 0 8px;
+        }
+
+        .word-info-card p {
+          color: #777184;
+          font-size: 13px;
+          line-height: 1.8;
+          margin: 0;
+        }
+
+        .word-how-to,
+        .word-uses,
+        .word-faq-section {
+          margin-top: 40px;
+          padding: 27px;
+          border: 1px solid #eee9f5;
+          border-radius: 17px;
+          background: #fff;
+        }
+
+        .word-how-to > h2,
+        .word-uses > h2 {
+          color: #211b32;
+          font-size: 23px;
+          font-weight: 850;
+          margin: 0 0 9px;
+        }
+
+        .word-how-to > p,
+        .word-uses > p {
+          color: #777184;
+          font-size: 13px;
+          line-height: 1.8;
+          margin: 0 0 22px;
+        }
+
+        .word-steps {
+          display: grid;
+          gap: 18px;
+        }
+
+        .word-step {
+          display: flex;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        .word-step > span {
+          flex: 0 0 42px;
+          height: 42px;
+          display: grid;
+          place-items: center;
+          border-radius: 12px;
+          background: #eee5ff;
+          color: #7542d8;
+          font-size: 13px;
+          font-weight: 900;
+        }
+
+        .word-step h3 {
+          color: #302641;
+          font-size: 15px;
+          margin: 2px 0 5px;
+        }
+
+        .word-step p {
+          color: #777184;
+          font-size: 13px;
+          line-height: 1.8;
+          margin: 0;
+        }
+
+        .word-uses ul {
+          display: grid;
+          gap: 11px;
+          padding-left: 22px;
+          margin: 0;
+          color: #555066;
+          font-size: 13px;
+          line-height: 1.7;
+        }
+
+        .word-limitations {
+          display: flex;
+          align-items: flex-start;
+          gap: 15px;
+          margin-top: 25px;
+          padding: 22px;
+          border: 1px solid #f3dfb1;
+          border-radius: 15px;
+          background: #fff9eb;
+        }
+
+        .word-limitations-icon {
+          color: #a16a1a;
+          flex-shrink: 0;
+        }
+
+        .word-limitations h3 {
+          color: #8a5a12;
+          font-size: 14px;
+          font-weight: 800;
+          margin: 0 0 8px;
+        }
+
+        .word-limitations p {
+          color: #876b3e;
+          font-size: 12px;
+          line-height: 1.8;
+          margin: 0;
+        }
+
+        .word-faq-section {
+          padding: 27px;
+        }
+
+        .word-faq-section .word-section-heading {
+          margin-bottom: 23px;
+        }
+
+        .word-faq-list {
+          display: grid;
+          gap: 11px;
+        }
+
+        .word-faq-item {
+          padding: 16px 18px;
+          border: 1px solid #e9e3f1;
+          border-radius: 12px;
+          background: #fcfbff;
+        }
+
+        .word-faq-item summary {
+          color: #302641;
+          font-size: 14px;
+          font-weight: 750;
+          line-height: 1.6;
+          cursor: pointer;
+        }
+
+        .word-faq-item p {
+          color: #777184;
+          font-size: 13px;
+          line-height: 1.8;
+          margin: 12px 0 0;
+        }
+
+        .word-related {
+          margin-top: 70px;
+        }
+
+        .word-related-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 13px;
+        }
+
+        .word-related-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 18px;
+          border: 1px solid #eee9f5;
+          border-radius: 14px;
+          background: #fff;
+          color: #302641;
+          text-decoration: none;
+          transition: 0.2s;
+        }
+
+        .word-related-card:hover {
+          border-color: #cbb8ed;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 22px rgba(40, 20, 80, 0.06);
+        }
+
+        .word-related-card h3 {
+          font-size: 14px;
+          margin: 0 0 5px;
+        }
+
+        .word-related-card p {
+          color: #888195;
+          font-size: 12px;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        .word-related-card > svg {
+          color: #7542d8;
+          flex-shrink: 0;
+        }
+
+        .word-spinner {
+          animation: word-spin 1s linear infinite;
+        }
+
+        @keyframes word-spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @media (max-width: 650px) {
+          .word-page {
+            padding: 28px 13px 55px;
+          }
+
+          .word-features,
+          .word-info-grid,
+          .word-related-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .word-how-to,
+          .word-uses,
+          .word-faq-section {
+            padding: 20px 16px;
+          }
+
+          .word-limitations {
+            padding: 17px;
+          }
+
+          .word-file-name {
+            flex-basis: calc(100% - 110px);
+          }
+        }
+      `}</style>
     </main>
   );
 }

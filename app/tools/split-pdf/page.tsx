@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import {
   FileText,
@@ -18,6 +19,72 @@ type SplitPage = {
   bytes: Uint8Array;
 };
 
+const relatedTools = [
+  {
+    name: "Merge PDF",
+    href: "/tools/merge-pdf",
+    description: "Combine multiple PDF files into one document.",
+  },
+  {
+    name: "Compress PDF",
+    href: "/tools/compress-pdf",
+    description: "Reduce the size of your PDF documents.",
+  },
+  {
+    name: "PDF to Word",
+    href: "/tools/pdf-to-word",
+    description: "Convert PDF documents into editable Word files.",
+  },
+  {
+    name: "PDF to JPG",
+    href: "/tools/pdf-to-jpg",
+    description: "Convert PDF pages into JPG images.",
+  },
+  {
+    name: "JPG to PDF",
+    href: "/tools/jpg-to-pdf",
+    description: "Convert JPG images into PDF documents.",
+  },
+  {
+    name: "Word to PDF",
+    href: "/tools/word-to-pdf",
+    description: "Convert Word documents into PDF files.",
+  },
+  {
+    name: "Protect PDF",
+    href: "/tools/protect-pdf",
+    description: "Add password protection to your PDF files.",
+  },
+];
+
+const faqs = [
+  {
+    question: "How can I split a PDF file online?",
+    answer:
+      "Select a PDF file from your device and click the Split PDF Now button. PDFMaster will separate every page into an individual PDF file that you can download.",
+  },
+  {
+    question: "Can I extract individual pages from a PDF?",
+    answer:
+      "Yes. PDFMaster separates each page of your uploaded PDF into its own PDF document, allowing you to download individual pages.",
+  },
+  {
+    question: "Can I download all split PDF pages?",
+    answer:
+      "Yes. After splitting your document, use the Download All button to download all the separate PDF files.",
+  },
+  {
+    question: "Are my PDF files uploaded to a server?",
+    answer:
+      "No server upload is required for the splitting process in this tool. Your PDF is processed locally in your browser using pdf-lib.",
+  },
+  {
+    question: "Is the PDF splitter free to use?",
+    answer:
+      "Yes. You can use PDFMaster's PDF splitting tool online without paying for the splitting feature.",
+  },
+];
+
 export default function SplitPDFPage() {
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<SplitPage[]>([]);
@@ -28,7 +95,10 @@ export default function SplitPDFPage() {
   const handleFile = (selectedFile?: File) => {
     if (!selectedFile) return;
 
-    if (selectedFile.type !== "application/pdf") {
+    if (
+      selectedFile.type !== "application/pdf" &&
+      !selectedFile.name.toLowerCase().endsWith(".pdf")
+    ) {
       setError("Please select a valid PDF file.");
       return;
     }
@@ -103,7 +173,7 @@ export default function SplitPDFPage() {
     link.click();
     link.remove();
 
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const downloadAll = () => {
@@ -128,11 +198,12 @@ export default function SplitPDFPage() {
 
         <span className="split-eyebrow">PDFMASTER TOOL</span>
 
-        <h1>Split PDF Files</h1>
+        <h1>Split PDF Online Free</h1>
 
         <p>
-          Separate your PDF into individual pages. Upload your document,
-          split it, and download each page as a separate PDF file.
+          Split PDF files into separate pages online with PDFMaster.
+          Extract individual pages from your PDF documents and download
+          them as separate PDF files in just a few clicks.
         </p>
       </section>
 
@@ -177,6 +248,7 @@ export default function SplitPDFPage() {
               </div>
 
               <button
+                type="button"
                 className="split-remove"
                 onClick={reset}
                 aria-label="Remove selected file"
@@ -280,6 +352,80 @@ export default function SplitPDFPage() {
           <CheckCircle2 size={22} />
           <h3>Private Processing</h3>
           <p>Your PDF is processed locally in your browser.</p>
+        </div>
+      </section>
+
+      {/* SEO CONTENT */}
+      <section className="split-seo-content">
+        <h2>Split PDF Files into Separate Pages</h2>
+
+        <p>
+          Need to extract pages from a PDF document? PDFMaster makes
+          it easy to split PDF files online. Whether you want to
+          separate study notes, work documents, reports or individual
+          pages from a large PDF, our free PDF splitter helps you
+          create separate PDF documents quickly.
+        </p>
+
+        <p>
+          You do not need to install additional software. Select your
+          PDF document, start the splitting process and download the
+          individual pages directly to your device.
+        </p>
+
+        <h2>How to Split PDF Online</h2>
+
+        <ol>
+          <li>Click Select PDF File and choose a PDF document.</li>
+          <li>Click the Split PDF Now button.</li>
+          <li>Wait while PDFMaster separates the document pages.</li>
+          <li>Download individual pages using their download buttons.</li>
+          <li>Use Download All to download every separated PDF file.</li>
+        </ol>
+
+        <h2>Benefits of Using PDFMaster PDF Splitter</h2>
+
+        <ul>
+          <li>Separate PDF documents into individual pages.</li>
+          <li>Download each page as a separate PDF file.</li>
+          <li>Download all split PDF files from one place.</li>
+          <li>Simple interface suitable for beginners.</li>
+          <li>No additional software installation required.</li>
+          <li>Browser-based PDF processing.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <div className="split-faq-list">
+          {faqs.map((faq) => (
+            <article key={faq.question} className="split-faq-item">
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* INTERNAL LINKS */}
+      <section className="split-related">
+        <h2>Explore More Free PDF Tools</h2>
+
+        <p>
+          PDFMaster provides additional tools to organize, convert
+          and protect your PDF documents.
+        </p>
+
+        <div className="split-related-grid">
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
+              href={tool.href}
+              className="split-related-card"
+            >
+              <strong>{tool.name}</strong>
+              <span>{tool.description}</span>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -610,6 +756,91 @@ export default function SplitPDFPage() {
           color: #69738d;
           font-size: 12px;
           line-height: 1.7;
+        }
+
+        .split-seo-content,
+        .split-related {
+          max-width: 950px;
+          margin: 35px auto 0;
+          padding: clamp(20px, 4vw, 32px);
+          border: 1px solid #e3e8f2;
+          border-radius: 18px;
+          background: white;
+          line-height: 1.8;
+        }
+
+        .split-seo-content h2,
+        .split-related h2 {
+          color: #101a35;
+          font-size: 23px;
+          margin: 0 0 12px;
+        }
+
+        .split-seo-content h2:not(:first-child) {
+          margin-top: 28px;
+        }
+
+        .split-seo-content p,
+        .split-related > p {
+          color: #69738d;
+          font-size: 14px;
+        }
+
+        .split-seo-content li {
+          color: #69738d;
+          font-size: 14px;
+          margin-bottom: 7px;
+        }
+
+        .split-faq-item {
+          padding: 15px 0;
+          border-bottom: 1px solid #e9eaf1;
+        }
+
+        .split-faq-item h3 {
+          margin: 0 0 7px;
+          color: #101a35;
+          font-size: 16px;
+        }
+
+        .split-faq-item p {
+          margin: 0;
+        }
+
+        .split-related-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 12px;
+          margin-top: 20px;
+        }
+
+        .split-related-card {
+          display: block;
+          padding: 16px;
+          border: 1px solid #e3e8f2;
+          border-radius: 12px;
+          background: #faf9ff;
+          text-decoration: none;
+          transition: 0.2s;
+        }
+
+        .split-related-card:hover {
+          border-color: #7255e8;
+          transform: translateY(-2px);
+        }
+
+        .split-related-card strong {
+          display: block;
+          color: #7255e8;
+          font-size: 14px;
+        }
+
+        .split-related-card span {
+          display: block;
+          margin-top: 6px;
+          color: #69738d;
+          font-size: 12px;
+          line-height: 1.6;
         }
 
         @media (max-width: 600px) {

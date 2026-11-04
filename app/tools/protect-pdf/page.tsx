@@ -2,6 +2,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import {
   LockKeyhole,
   FileText,
@@ -15,6 +16,87 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { encryptPDF } from "@pdfsmaller/pdf-encrypt";
+
+const faqs = [
+  {
+    question: "How do I password protect a PDF online?",
+    answer:
+      "Select your PDF file, enter an opening password, confirm the password, choose the document permissions, and click Protect & Download PDF. The encrypted PDF will be downloaded to your device.",
+  },
+  {
+    question: "Does this Protect PDF tool use AES-256 encryption?",
+    answer:
+      "This tool requests AES-256 encryption through its PDF encryption library. The resulting document's security should always be tested in a trusted PDF reader before sharing or relying on it.",
+  },
+  {
+    question: "Is my PDF uploaded to a server?",
+    answer:
+      "The protection process in this tool runs in your browser. Your selected PDF is read locally by the browser and the encrypted result is downloaded to your device.",
+  },
+  {
+    question: "Can I set a password that is different from my account password?",
+    answer:
+      "Yes. You create a separate opening password for the PDF. It is not connected to an account password.",
+  },
+  {
+    question: "Can I control printing and copying permissions?",
+    answer:
+      "You can choose whether printing, copying, and modifications are allowed in the generated PDF. Permission enforcement depends on the PDF reader, so these restrictions should not be treated as a replacement for the opening password.",
+  },
+  {
+    question: "What happens if I forget my PDF password?",
+    answer:
+      "You may not be able to open the protected document without its password. Keep your password in a safe place and make sure you retain an accessible copy of the original PDF.",
+  },
+  {
+    question: "Can I protect multiple PDF files at once?",
+    answer:
+      "This tool currently processes one selected PDF file at a time. You can protect another document by using the Start Again option.",
+  },
+  {
+    question: "Is this PDF protection tool free?",
+    answer:
+      "You can use this browser-based PDF protection tool without creating an account. Your browser and device handle the encryption process.",
+  },
+];
+
+const relatedTools = [
+  {
+    title: "Unlock PDF",
+    description: "Learn about PDF password removal and access options.",
+    href: "/tools/unlock-pdf",
+  },
+  {
+    title: "Merge PDF",
+    description: "Combine multiple PDF documents into one file.",
+    href: "/tools/merge-pdf",
+  },
+  {
+    title: "Split PDF",
+    description: "Separate pages from a PDF document.",
+    href: "/tools/split-pdf",
+  },
+  {
+    title: "Compress PDF",
+    description: "Reduce PDF file size for easier sharing.",
+    href: "/tools/compress-pdf",
+  },
+  {
+    title: "PDF to Word",
+    description: "Convert PDF text into an editable Word document.",
+    href: "/tools/pdf-to-word",
+  },
+  {
+    title: "PDF to JPG",
+    description: "Convert PDF pages into JPG images.",
+    href: "/tools/pdf-to-jpg",
+  },
+  {
+    title: "JPG to PDF",
+    description: "Create a PDF document from images.",
+    href: "/tools/jpg-to-pdf",
+  },
+];
 
 export default function ProtectPDFPage() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -515,6 +597,154 @@ export default function ProtectPDFPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* SEO Content */}
+      <section className="bg-white px-5 py-16 md:py-20">
+        <div className="mx-auto w-full max-w-4xl">
+
+          <div className="text-center">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+              Online PDF Security
+            </span>
+            <h2 className="mt-3 text-3xl font-black text-slate-900 md:text-4xl">
+              Protect PDF Files with a Password Online
+            </h2>
+          </div>
+
+          <div className="mt-8 space-y-5 text-sm leading-8 text-slate-600 md:text-base">
+            <p>
+              Protect your important PDF documents by adding an opening
+              password with PDFMaster. A password-protected PDF requires
+              the correct password before a reader can open the document.
+              This can help add an extra layer of privacy when sharing
+              personal documents, business files, reports, and other
+              sensitive information.
+            </p>
+
+            <p>
+              Our free Protect PDF tool lets you select a PDF, create a
+              password, confirm it, and download an encrypted document.
+              The encryption process runs directly in your browser, so
+              the selected file does not need to be uploaded to a
+              conversion server by this tool.
+            </p>
+
+            <p>
+              The tool also provides permission options for printing,
+              copying, and modifying a document. These settings are
+              supported differently by different PDF readers. For
+              important documents, use a strong opening password and
+              test the downloaded file in a trusted PDF application.
+            </p>
+          </div>
+
+          <div className="mt-12">
+            <h2 className="text-2xl font-extrabold text-slate-900">
+              Why Use PDFMaster to Protect PDF Documents?
+            </h2>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              {[
+                {
+                  title: "Opening Password",
+                  desc: "Create a password that readers need to open your protected PDF.",
+                },
+                {
+                  title: "Browser-Based Processing",
+                  desc: "The selected document is processed locally in your browser.",
+                },
+                {
+                  title: "Permission Options",
+                  desc: "Choose available printing, copying, and modification permissions.",
+                },
+                {
+                  title: "Simple Downloads",
+                  desc: "Download the newly encrypted PDF directly to your device.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-indigo-100 bg-[#f7f7ff] p-6"
+                >
+                  <h3 className="font-bold text-slate-800">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-500">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* FAQ */}
+          <div className="mt-14">
+            <div className="text-center">
+              <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+                Help Center
+              </span>
+              <h2 className="mt-3 text-3xl font-black text-slate-900">
+                Frequently Asked Questions
+              </h2>
+            </div>
+
+            <div className="mt-8 space-y-4">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  className="group rounded-2xl border border-indigo-100 bg-white p-5 transition open:bg-indigo-50/40"
+                >
+                  <summary className="cursor-pointer list-none pr-6 font-bold text-slate-800 marker:hidden">
+                    <span className="flex items-center justify-between gap-4">
+                      {faq.question}
+                      <span className="text-xl text-indigo-600 transition group-open:rotate-45">
+                        +
+                      </span>
+                    </span>
+                  </summary>
+
+                  <p className="mt-4 border-t border-indigo-100 pt-4 text-sm leading-7 text-slate-600">
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          {/* Related Tools */}
+          <div className="mt-16">
+            <div className="text-center">
+              <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+                Explore PDFMaster
+              </span>
+              <h2 className="mt-3 text-3xl font-black text-slate-900">
+                Explore More PDF Tools
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-500">
+                Use these PDF tools to manage, convert, and organize your documents.
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {relatedTools.map((tool) => (
+                <Link
+                  key={tool.href}
+                  href={tool.href}
+                  className="group rounded-2xl border border-indigo-100 bg-[#f7f7ff] p-5 transition hover:-translate-y-1 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md"
+                >
+                  <h3 className="font-bold text-indigo-700 transition group-hover:text-indigo-900">
+                    {tool.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
+                    {tool.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 

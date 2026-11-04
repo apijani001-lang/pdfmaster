@@ -1,8 +1,8 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import type { DragEvent } from "react";
+import Link from "next/link";
 import JSZip from "jszip";
 import {
   FileImage,
@@ -16,10 +16,13 @@ import {
   ShieldCheck,
   Image as ImageIcon,
   RefreshCw,
-    FolderOpen,
+  FolderOpen,
   Sparkles,
   Settings2,
   LockKeyhole,
+  ArrowRight,
+  FileText,
+  HelpCircle,
 } from "lucide-react";
 
 type ConvertedImage = {
@@ -28,8 +31,85 @@ type ConvertedImage = {
   url: string;
 };
 
+const faqs = [
+  {
+    question: "How can I convert PDF to JPG online?",
+    answer:
+      "Upload your PDF file, choose your preferred JPG quality and resolution, and click Convert PDF to JPG. Each PDF page will be converted into a separate JPG image that you can download individually or together in a ZIP file.",
+  },
+  {
+    question: "Can I convert every page of a PDF into JPG?",
+    answer:
+      "Yes. PDFMaster converts every page of your selected PDF into a separate JPG image. This converter supports PDF documents with up to 100 pages per conversion.",
+  },
+  {
+    question: "Can I download all JPG images together?",
+    answer:
+      "Yes. You can download individual JPG images or use the Download All ZIP button to save all converted pages together in one ZIP archive.",
+  },
+  {
+    question: "Can I change JPG quality and resolution?",
+    answer:
+      "Yes. You can select JPG quality from 50% to 100% and choose Standard, High, or Very High resolution. Higher quality and resolution can produce larger image files.",
+  },
+  {
+    question: "Is my PDF uploaded to a server?",
+    answer:
+      "The conversion is performed locally in your browser. Your selected PDF is processed on your device by this tool rather than being uploaded to a PDF conversion server.",
+  },
+  {
+    question: "Can I edit text in the converted JPG images?",
+    answer:
+      "No. JPG files are images of PDF pages, not editable documents. The visual content of each page is converted into an image. If you need editable text, try our PDF to Word tool.",
+  },
+  {
+    question: "Is there a page limit for PDF to JPG conversion?",
+    answer:
+      "This tool supports up to 100 pages per conversion. Very large documents or high-resolution settings may require more memory and processing time in your browser.",
+  },
+];
+
+const relatedTools = [
+  {
+    title: "Merge PDF",
+    description: "Combine multiple PDF files into one document.",
+    href: "/tools/merge-pdf",
+  },
+  {
+    title: "Split PDF",
+    description: "Separate PDF pages into individual documents.",
+    href: "/tools/split-pdf",
+  },
+  {
+    title: "Compress PDF",
+    description: "Reduce PDF file size for easier sharing.",
+    href: "/tools/compress-pdf",
+  },
+  {
+    title: "PDF to Word",
+    description: "Convert PDF pages into an editable Word document.",
+    href: "/tools/pdf-to-word",
+  },
+  {
+    title: "JPG to PDF",
+    description: "Turn JPG images into a PDF document.",
+    href: "/tools/jpg-to-pdf",
+  },
+  {
+    title: "Word to PDF",
+    description: "Convert Word documents into PDF files.",
+    href: "/tools/word-to-pdf",
+  },
+  {
+    title: "Protect PDF",
+    description: "Protect your PDF documents with a password.",
+    href: "/tools/protect-pdf",
+  },
+];
+
 export default function PdfToJpgPage() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const imagesRef = useRef<ConvertedImage[]>([]);
 
   const [file, setFile] = useState<File | null>(null);
   const [images, setImages] = useState<ConvertedImage[]>([]);
@@ -46,21 +126,26 @@ export default function PdfToJpgPage() {
     items.forEach((item) => URL.revokeObjectURL(item.url));
   };
 
+  // Keep the latest object URLs available for unmount cleanup.
   useEffect(() => {
     return () => {
-      clearImages(images);
+      clearImages(imagesRef.current);
+      imagesRef.current = [];
     };
-    // Cleanup URLs when the page is closed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const resetImages = () => {
+    clearImages(imagesRef.current);
+    imagesRef.current = [];
+    setImages([]);
+  };
 
   const selectFile = (selectedFile?: File) => {
     if (!selectedFile) return;
 
     setError("");
     setSuccess(false);
-    clearImages(images);
-    setImages([]);
+    resetImages();
     setProgress("");
 
     const isPdf =
@@ -83,8 +168,7 @@ export default function PdfToJpgPage() {
   };
 
   const removeFile = () => {
-    clearImages(images);
-    setImages([]);
+    resetImages();
     setFile(null);
     setError("");
     setSuccess(false);
@@ -124,8 +208,7 @@ export default function PdfToJpgPage() {
     setError("");
     setSuccess(false);
 
-    clearImages(images);
-    setImages([]);
+    resetImages();
 
     const converted: ConvertedImage[] = [];
 
@@ -194,6 +277,7 @@ export default function PdfToJpgPage() {
         canvas.height = 0;
       }
 
+      imagesRef.current = converted;
       setImages(converted);
       setSuccess(true);
       setProgress(
@@ -298,13 +382,32 @@ export default function PdfToJpgPage() {
     0
   );
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <main className="pdfjpg-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
+
       <div className="pdfjpg-glow pdfjpg-glow-one" />
       <div className="pdfjpg-glow pdfjpg-glow-two" />
 
       <div className="pdfjpg-container">
-
         {/* HERO */}
         <header className="pdfjpg-hero">
           <div className="pdfjpg-badge">
@@ -319,14 +422,22 @@ export default function PdfToJpgPage() {
           </h1>
 
           <p>
-            Convert every page of your PDF into high-quality JPG images.
-            Download individual images or all pages together in one ZIP file.
+            Convert PDF to JPG online with PDFMaster. Turn every page of your
+            PDF document into a high-quality JPG image. Adjust image quality
+            and resolution, download individual pages, or save all images in
+            one ZIP file.
           </p>
 
           <div className="pdfjpg-trust">
-            <span><ShieldCheck size={16} /> Browser processing</span>
-            <span><Zap size={16} /> Fast conversion</span>
-            <span><FileImage size={16} /> JPG images</span>
+            <span>
+              <ShieldCheck size={16} /> Browser processing
+            </span>
+            <span>
+              <Zap size={16} /> Fast conversion
+            </span>
+            <span>
+              <FileImage size={16} /> JPG images
+            </span>
           </div>
         </header>
 
@@ -445,11 +556,9 @@ export default function PdfToJpgPage() {
                   value={quality}
                   onChange={(event) => {
                     setQuality(Number(event.target.value));
-                    setImages((old) => {
-                      clearImages(old);
-                      return [];
-                    });
+                    resetImages();
                     setSuccess(false);
+                    setProgress("");
                   }}
                   disabled={loading}
                 />
@@ -461,7 +570,11 @@ export default function PdfToJpgPage() {
                 <div className="pdfjpg-setting-top">
                   <label htmlFor="jpg-resolution">Resolution</label>
                   <strong>
-                    {scale === 1 ? "Standard" : scale === 1.5 ? "High" : "Very High"}
+                    {scale === 1
+                      ? "Standard"
+                      : scale === 1.5
+                        ? "High"
+                        : "Very High"}
                   </strong>
                 </div>
 
@@ -470,11 +583,9 @@ export default function PdfToJpgPage() {
                   value={scale}
                   onChange={(event) => {
                     setScale(Number(event.target.value));
-                    setImages((old) => {
-                      clearImages(old);
-                      return [];
-                    });
+                    resetImages();
                     setSuccess(false);
+                    setProgress("");
                   }}
                   disabled={loading}
                 >
@@ -565,7 +676,8 @@ export default function PdfToJpgPage() {
                 <div className="pdfjpg-small-label">CONVERSION COMPLETE</div>
                 <h2>Your JPG Images</h2>
                 <p>
-                  {images.length} images · {(totalSize / (1024 * 1024)).toFixed(2)} MB total
+                  {images.length} images ·{" "}
+                  {(totalSize / (1024 * 1024)).toFixed(2)} MB total
                 </p>
               </div>
 
@@ -581,7 +693,7 @@ export default function PdfToJpgPage() {
                   <div className="pdfjpg-preview">
                     <img
                       src={image.url}
-                      alt={`PDF page ${index + 1}`}
+                      alt={`Converted PDF page ${index + 1} JPG image`}
                     />
                     <span>PAGE {index + 1}</span>
                   </div>
@@ -614,7 +726,9 @@ export default function PdfToJpgPage() {
               disabled={downloadingZip}
             >
               <Archive size={20} />
-              {downloadingZip ? "Preparing ZIP..." : "Download All Images as ZIP"}
+              {downloadingZip
+                ? "Preparing ZIP..."
+                : "Download All Images as ZIP"}
               <Download size={19} />
             </button>
           </section>
@@ -693,6 +807,122 @@ export default function PdfToJpgPage() {
                 <p>Download individual JPGs or all images as ZIP.</p>
               </div>
             </article>
+          </div>
+        </section>
+
+        {/* SEO GUIDE */}
+        <section className="pdfjpg-seo-section">
+          <div className="pdfjpg-section-heading">
+            <div className="pdfjpg-small-label">PDF TO JPG ONLINE</div>
+            <h2>Convert PDF pages into JPG images</h2>
+            <p>
+              A simple way to turn PDF documents into image files directly
+              from your browser.
+            </p>
+          </div>
+
+          <div className="pdfjpg-seo-content">
+            <article>
+              <h3>Why convert PDF to JPG?</h3>
+              <p>
+                PDF files are useful for sharing documents while preserving
+                their layout. However, sometimes you may need individual page
+                images instead. Converting PDF to JPG makes it easier to use
+                document pages in presentations, websites, image collections,
+                and other projects that support JPG files.
+              </p>
+            </article>
+
+            <article>
+              <h3>Choose the right image quality</h3>
+              <p>
+                PDFMaster lets you adjust JPG quality and resolution before
+                conversion. A higher quality setting can preserve more image
+                detail, while a lower setting can create smaller files.
+                Standard, High, and Very High resolution options let you
+                choose an output size that suits your needs.
+              </p>
+            </article>
+
+            <article>
+              <h3>Download individual images or a ZIP file</h3>
+              <p>
+                Every page is converted into its own JPG image. You can
+                preview the results and download pages one at a time, or
+                download all converted images together in a ZIP archive.
+                This is useful when working with multi-page PDF documents.
+              </p>
+            </article>
+
+            <article>
+              <h3>Convert PDF files in your browser</h3>
+              <p>
+                The conversion runs in your browser using local processing.
+                Your selected PDF is not sent to a PDF conversion server by
+                this tool. Processing speed and memory use can depend on your
+                device, PDF size, page count, and selected resolution.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="pdfjpg-faq-section">
+          <div className="pdfjpg-section-heading">
+            <div className="pdfjpg-small-label">HELP CENTER</div>
+            <h2>Frequently asked questions</h2>
+            <p>
+              Find answers about converting PDF documents into JPG images.
+            </p>
+          </div>
+
+          <div className="pdfjpg-faq-list">
+            {faqs.map((faq, index) => (
+              <details className="pdfjpg-faq-item" key={faq.question}>
+                <summary>
+                  <span className="pdfjpg-faq-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="pdfjpg-faq-question">
+                    {faq.question}
+                  </span>
+                  <span className="pdfjpg-faq-icon">
+                    <HelpCircle size={19} />
+                  </span>
+                </summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* RELATED TOOLS */}
+        <section className="pdfjpg-related-section">
+          <div className="pdfjpg-section-heading">
+            <div className="pdfjpg-small-label">MORE PDF TOOLS</div>
+            <h2>Explore other PDF tools</h2>
+            <p>
+              Use more free PDF tools to manage and convert your documents.
+            </p>
+          </div>
+
+          <div className="pdfjpg-related-grid">
+            {relatedTools.map((tool) => (
+              <Link
+                href={tool.href}
+                className="pdfjpg-related-card"
+                key={tool.href}
+              >
+                <div className="pdfjpg-related-icon">
+                  <FileText size={21} />
+                </div>
+                <div className="pdfjpg-related-text">
+                  <h3>{tool.title}</h3>
+                  <p>{tool.description}</p>
+                </div>
+                <ArrowRight size={18} className="pdfjpg-related-arrow" />
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -805,7 +1035,7 @@ export default function PdfToJpgPage() {
         }
 
         .pdfjpg-hero > p {
-          max-width: 660px;
+          max-width: 700px;
           margin: 22px auto 24px;
           color: #a5b4cf;
           font-size: 16px;
@@ -1510,6 +1740,179 @@ export default function PdfToJpgPage() {
           line-height: 1.7;
         }
 
+        /* SEO GUIDE */
+        .pdfjpg-seo-section {
+          margin-top: 85px;
+          padding: 38px 30px;
+          border: 1px solid rgba(148, 163, 184, 0.14);
+          border-radius: 22px;
+          background: linear-gradient(145deg, rgba(20, 31, 53, 0.9), rgba(13, 21, 38, 0.9));
+        }
+
+        .pdfjpg-seo-content {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 18px;
+        }
+
+        .pdfjpg-seo-content article {
+          padding: 22px;
+          border: 1px solid rgba(148, 163, 184, 0.13);
+          border-radius: 15px;
+          background: rgba(5, 12, 27, 0.35);
+        }
+
+        .pdfjpg-seo-content h3 {
+          margin: 0 0 11px;
+          color: #dbeafe;
+          font-size: 15px;
+          font-weight: 800;
+        }
+
+        .pdfjpg-seo-content p {
+          margin: 0;
+          color: #a5b4cf;
+          font-size: 12px;
+          line-height: 1.9;
+        }
+
+        /* FAQ */
+        .pdfjpg-faq-section {
+          margin-top: 85px;
+        }
+
+        .pdfjpg-faq-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .pdfjpg-faq-item {
+          overflow: hidden;
+          border: 1px solid rgba(148, 163, 184, 0.16);
+          border-radius: 14px;
+          background: linear-gradient(145deg, #131e33, #10192b);
+        }
+
+        .pdfjpg-faq-item summary {
+          display: flex;
+          min-height: 65px;
+          align-items: center;
+          gap: 14px;
+          padding: 16px 19px;
+          color: #f1f5f9;
+          cursor: pointer;
+          list-style: none;
+        }
+
+        .pdfjpg-faq-item summary::-webkit-details-marker {
+          display: none;
+        }
+
+        .pdfjpg-faq-number {
+          color: #60a5fa;
+          font-size: 11px;
+          font-weight: 900;
+        }
+
+        .pdfjpg-faq-question {
+          flex: 1;
+          font-size: 13px;
+          font-weight: 750;
+          line-height: 1.6;
+        }
+
+        .pdfjpg-faq-icon {
+          display: flex;
+          color: #60a5fa;
+        }
+
+        .pdfjpg-faq-item[open] .pdfjpg-faq-icon {
+          color: #c084fc;
+        }
+
+        .pdfjpg-faq-item > p {
+          margin: 0;
+          padding: 0 20px 19px 49px;
+          color: #a5b4cf;
+          font-size: 12px;
+          line-height: 1.9;
+        }
+
+        /* RELATED TOOLS */
+        .pdfjpg-related-section {
+          margin-top: 85px;
+        }
+
+        .pdfjpg-related-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+        }
+
+        .pdfjpg-related-card {
+          display: flex;
+          min-width: 0;
+          align-items: center;
+          gap: 14px;
+          padding: 18px;
+          border: 1px solid rgba(148, 163, 184, 0.15);
+          border-radius: 15px;
+          background: linear-gradient(145deg, #131e33, #10192b);
+          text-decoration: none;
+          transition: border-color 0.2s, transform 0.2s, background 0.2s;
+        }
+
+        .pdfjpg-related-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(96, 165, 250, 0.45);
+          background: #17243b;
+        }
+
+        .pdfjpg-related-icon {
+          display: flex;
+          width: 43px;
+          height: 43px;
+          flex-shrink: 0;
+          align-items: center;
+          justify-content: center;
+          border-radius: 12px;
+          background: rgba(37, 99, 235, 0.14);
+          color: #93c5fd;
+        }
+
+        .pdfjpg-related-text {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .pdfjpg-related-text h3 {
+          margin: 0 0 5px;
+          color: #e2e8f0;
+          font-size: 13px;
+          font-weight: 800;
+        }
+
+        .pdfjpg-related-text p {
+          margin: 0;
+          color: #94a3b8;
+          font-size: 11px;
+          line-height: 1.6;
+        }
+
+        .pdfjpg-related-arrow {
+          flex-shrink: 0;
+          color: #64748b;
+          transition: transform 0.2s, color 0.2s;
+        }
+
+        .pdfjpg-related-card:hover .pdfjpg-related-arrow {
+          transform: translateX(3px);
+          color: #93c5fd;
+        }
+
         .pdfjpg-notice {
           display: flex;
           align-items: flex-start;
@@ -1556,12 +1959,17 @@ export default function PdfToJpgPage() {
             gap: 22px;
           }
 
-          .pdfjpg-steps-section {
+          .pdfjpg-steps-section,
+          .pdfjpg-seo-section {
             padding: 27px 21px;
           }
 
           .pdfjpg-images-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .pdfjpg-seo-content {
+            grid-template-columns: 1fr;
           }
         }
 
@@ -1637,12 +2045,28 @@ export default function PdfToJpgPage() {
             height: 260px;
           }
 
-          .pdfjpg-features-section {
+          .pdfjpg-features-section,
+          .pdfjpg-faq-section,
+          .pdfjpg-related-section {
             margin-top: 65px;
           }
 
-          .pdfjpg-steps-section {
+          .pdfjpg-steps-section,
+          .pdfjpg-seo-section {
             margin-top: 65px;
+          }
+
+          .pdfjpg-related-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .pdfjpg-faq-item summary {
+            gap: 10px;
+            padding: 14px;
+          }
+
+          .pdfjpg-faq-item > p {
+            padding: 0 15px 16px 40px;
           }
         }
 

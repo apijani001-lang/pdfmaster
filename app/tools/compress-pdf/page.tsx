@@ -44,6 +44,82 @@ const settings = {
   low: { scale: 1.5, quality: 0.82 },
 };
 
+const relatedTools = [
+  {
+    title: "Merge PDF",
+    description: "Combine multiple PDF documents into one file.",
+    href: "/tools/merge-pdf",
+  },
+  {
+    title: "Split PDF",
+    description: "Separate a PDF into individual pages.",
+    href: "/tools/split-pdf",
+  },
+  {
+    title: "PDF to Word",
+    description: "Convert PDF documents into Word files.",
+    href: "/tools/pdf-to-word",
+  },
+  {
+    title: "PDF to JPG",
+    description: "Convert PDF pages into JPG images.",
+    href: "/tools/pdf-to-jpg",
+  },
+  {
+    title: "JPG to PDF",
+    description: "Turn JPG images into a PDF document.",
+    href: "/tools/jpg-to-pdf",
+  },
+  {
+    title: "Word to PDF",
+    description: "Convert Word documents into PDF files.",
+    href: "/tools/word-to-pdf",
+  },
+  {
+    title: "Protect PDF",
+    description: "Protect your PDF documents with a password.",
+    href: "/tools/protect-pdf",
+  },
+];
+
+const faqs = [
+  {
+    question: "How can I compress a PDF file online?",
+    answer:
+      "Upload your PDF file, select a compression level and click Compress PDF Now. When processing finishes, compare the original and new file sizes and download your compressed PDF.",
+  },
+  {
+    question: "Is this PDF compressor free to use?",
+    answer:
+      "PDFMaster provides this PDF compression tool for free. You can upload a PDF, choose a compression level and download the processed document without creating an account.",
+  },
+  {
+    question: "Which compression level should I choose?",
+    answer:
+      "Choose Maximum Compression when a smaller file is your priority. Recommended offers a balance between size and image quality. Less Compression uses higher image quality and may produce a larger file.",
+  },
+  {
+    question: "Will compressing a PDF reduce its quality?",
+    answer:
+      "This tool converts PDF pages into JPEG images. Image quality can change depending on the selected compression level. Maximum Compression uses lower image quality, while Less Compression aims to retain more visual detail.",
+  },
+  {
+    question: "Will my PDF text remain selectable after compression?",
+    answer:
+      "No. This tool converts each page into an image, so text will no longer be selectable or searchable. Links, forms, bookmarks and other interactive PDF elements are also not preserved.",
+  },
+  {
+    question: "Why is my compressed PDF sometimes larger?",
+    answer:
+      "Some PDFs are already highly optimized or contain content that does not compress efficiently as JPEG images. In those cases, the processed PDF may be the same size or larger than the original.",
+  },
+  {
+    question: "Are my PDF files uploaded to a server?",
+    answer:
+      "The PDF processing in this tool takes place in your browser. Your selected document is processed locally on your device rather than being sent to a PDFMaster processing server.",
+  },
+];
+
 export default function CompressPDFPage() {
   const [file, setFile] = useState<File | null>(null);
   const [level, setLevel] = useState<CompressionLevel>("medium");
@@ -57,9 +133,11 @@ export default function CompressPDFPage() {
 
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
+
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(1)} KB`;
     }
+
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
@@ -139,10 +217,8 @@ export default function CompressPDFPage() {
       | null = null;
 
     try {
-      // Load PDF.js in the browser.
       const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
 
-      // Load the worker from the public folder.
       pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
 
       const inputBytes = new Uint8Array(await file.arrayBuffer());
@@ -289,11 +365,12 @@ export default function CompressPDFPage() {
 
         <span className="compress-eyebrow">PDFMASTER TOOL</span>
 
-        <h1>Compress PDF</h1>
+        <h1>Compress PDF Online for Free</h1>
 
         <p>
-          Reduce your PDF file size to make it easier to share,
-          upload and store. Choose your preferred compression level.
+          Reduce your PDF file size to make documents easier to
+          share, upload and store. Upload your PDF, choose a
+          compression level and download your processed file.
         </p>
       </section>
 
@@ -467,29 +544,179 @@ export default function CompressPDFPage() {
       <section className="compress-features">
         <div>
           <Minimize2 size={23} />
-          <h3>Three Levels</h3>
-          <p>Choose the compression quality that suits your needs.</p>
+          <h3>Three Compression Levels</h3>
+          <p>
+            Choose the image quality and compression setting
+            that suits your document.
+          </p>
         </div>
 
         <div>
           <FileText size={23} />
-          <h3>Simple Process</h3>
-          <p>Upload, compress and download your PDF.</p>
+          <h3>Simple PDF Compression</h3>
+          <p>
+            Select a PDF, process it in your browser and
+            download the resulting document.
+          </p>
         </div>
 
         <div>
           <CheckCircle2 size={23} />
-          <h3>Browser Processing</h3>
-          <p>Your document is processed locally on your device.</p>
+          <h3>Browser-Based Processing</h3>
+          <p>
+            Your document is processed locally in your browser
+            instead of being sent to a processing server.
+          </p>
         </div>
       </section>
 
-      <section className="compress-notice">
-        <strong>Important:</strong> This tool converts each PDF page
-        into an image. Text will no longer be selectable or searchable,
-        and links, forms and other interactive PDF elements will not
-        be preserved. Actual file-size reduction depends on the
-        original PDF and its contents.
+      <section className="compress-seo-section">
+        <h2>Reduce PDF File Size with PDFMaster</h2>
+
+        <p>
+          Large PDF files can be difficult to email, upload or
+          share online. PDFMaster&apos;s free PDF compressor
+          helps you create a smaller PDF by converting its pages
+          into compressed JPEG images. This can be useful when
+          you need a document that is easier to store or send.
+        </p>
+
+        <p>
+          You can choose between Maximum Compression,
+          Recommended and Less Compression. Each setting uses
+          different image dimensions and JPEG quality. The best
+          option depends on the contents of your PDF and
+          whether smaller file size or clearer images are more
+          important to you.
+        </p>
+
+        <h2>How to Compress a PDF File</h2>
+
+        <ol className="compress-steps">
+          <li>
+            <strong>Upload your PDF:</strong> Select a PDF
+            document from your computer or device.
+          </li>
+          <li>
+            <strong>Choose a compression level:</strong> Select
+            Maximum Compression, Recommended or Less Compression.
+          </li>
+          <li>
+            <strong>Start compression:</strong> Click the
+            Compress PDF Now button and wait for processing.
+          </li>
+          <li>
+            <strong>Compare file sizes:</strong> Review the
+            original and newly generated PDF sizes.
+          </li>
+          <li>
+            <strong>Download your PDF:</strong> Save the
+            processed document to your device.
+          </li>
+        </ol>
+
+        <h2>Choose the Right PDF Compression Level</h2>
+
+        <div className="compress-level-grid">
+          <div>
+            <h3>Maximum Compression</h3>
+            <p>
+              Uses lower image quality and smaller rendering
+              dimensions. Choose it when reducing file size is
+              your main priority.
+            </p>
+          </div>
+
+          <div>
+            <h3>Recommended Compression</h3>
+            <p>
+              Offers a middle setting for image dimensions and
+              JPEG quality. It is a useful starting point for
+              many ordinary documents.
+            </p>
+          </div>
+
+          <div>
+            <h3>Less Compression</h3>
+            <p>
+              Uses higher image quality and larger rendering
+              dimensions. Choose it when visual detail is more
+              important than file size.
+            </p>
+          </div>
+        </div>
+
+        <h2>Why Compress PDF Documents?</h2>
+
+        <ul className="compress-benefits">
+          <li>
+            Make large PDF documents easier to share through
+            email and messaging services.
+          </li>
+          <li>
+            Reduce the amount of storage space used by some
+            PDF files.
+          </li>
+          <li>
+            Prepare documents for websites and online upload
+            forms with file-size limits.
+          </li>
+          <li>
+            Choose a compression setting based on your
+            preferred image quality.
+          </li>
+        </ul>
+
+        <div className="compress-seo-notice">
+          <strong>Important information:</strong> This tool
+          converts every PDF page into a JPEG image. The
+          resulting document will not retain selectable or
+          searchable text, clickable links, forms, bookmarks
+          or other interactive PDF elements. Some PDFs may
+          become larger after processing. Always check the
+          output before replacing your original document.
+        </div>
+      </section>
+
+      <section className="compress-faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <p className="compress-faq-intro">
+          Find answers to common questions about compressing
+          PDF documents with PDFMaster.
+        </p>
+
+        <div className="compress-faq-list">
+          {faqs.map((faq, index) => (
+            <details className="compress-faq-item" key={index}>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="compress-related-section">
+        <h2>Explore More Free PDF Tools</h2>
+
+        <p>
+          PDFMaster offers additional tools to help you work
+          with PDF documents and images.
+        </p>
+
+        <div className="compress-related-grid">
+          {relatedTools.map((tool) => (
+            <a
+              href={tool.href}
+              className="compress-related-card"
+              key={tool.href}
+            >
+              <h3>{tool.title}</h3>
+              <p>{tool.description}</p>
+              <span>Use Tool →</span>
+            </a>
+          ))}
+        </div>
       </section>
 
       <style jsx>{`
@@ -529,6 +756,7 @@ export default function CompressPDFPage() {
           font-size: clamp(32px, 5vw, 48px);
           font-weight: 900;
           letter-spacing: -1.8px;
+          line-height: 1.2;
         }
 
         .compress-hero p {
@@ -935,6 +1163,183 @@ export default function CompressPDFPage() {
           color: #101a35;
         }
 
+        .compress-seo-section,
+        .compress-faq-section,
+        .compress-related-section {
+          max-width: 900px;
+          margin: 55px auto 0;
+          padding: 30px;
+          border: 1px solid #e3e8f2;
+          border-radius: 18px;
+          background: white;
+        }
+
+        .compress-seo-section h2,
+        .compress-faq-section h2,
+        .compress-related-section h2 {
+          margin: 28px 0 12px;
+          color: #101a35;
+          font-size: 23px;
+          line-height: 1.35;
+        }
+
+        .compress-seo-section h2:first-child {
+          margin-top: 0;
+        }
+
+        .compress-seo-section p,
+        .compress-related-section > p {
+          color: #69738d;
+          font-size: 14px;
+          line-height: 1.9;
+        }
+
+        .compress-steps,
+        .compress-benefits {
+          padding-left: 23px;
+          color: #69738d;
+          font-size: 14px;
+          line-height: 2;
+        }
+
+        .compress-steps li,
+        .compress-benefits li {
+          margin-bottom: 8px;
+        }
+
+        .compress-steps strong {
+          color: #101a35;
+        }
+
+        .compress-level-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+          margin-top: 18px;
+        }
+
+        .compress-level-grid > div {
+          padding: 18px;
+          border: 1px solid #e3e8f2;
+          border-radius: 13px;
+          background: #faf9ff;
+        }
+
+        .compress-level-grid h3 {
+          margin: 0 0 9px;
+          font-size: 15px;
+          line-height: 1.5;
+        }
+
+        .compress-level-grid p {
+          margin: 0;
+          font-size: 12px;
+          line-height: 1.8;
+        }
+
+        .compress-seo-notice {
+          margin-top: 25px;
+          padding: 17px;
+          border: 1px solid #e3e8f2;
+          border-radius: 12px;
+          background: #faf9ff;
+          color: #69738d;
+          font-size: 13px;
+          line-height: 1.8;
+        }
+
+        .compress-seo-notice strong {
+          color: #101a35;
+        }
+
+        .compress-faq-section h2,
+        .compress-related-section h2 {
+          margin-top: 0;
+        }
+
+        .compress-faq-intro {
+          margin-bottom: 22px;
+          color: #69738d;
+          font-size: 14px;
+          line-height: 1.8;
+        }
+
+        .compress-faq-list {
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+        }
+
+        .compress-faq-item {
+          padding: 17px;
+          border: 1px solid #e3e8f2;
+          border-radius: 12px;
+          background: #fff;
+        }
+
+        .compress-faq-item summary {
+          color: #101a35;
+          font-size: 14px;
+          font-weight: 800;
+          line-height: 1.6;
+          cursor: pointer;
+        }
+
+        .compress-faq-item p {
+          margin: 12px 0 0;
+          color: #69738d;
+          font-size: 13px;
+          line-height: 1.8;
+        }
+
+        .compress-related-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 14px;
+          margin-top: 22px;
+        }
+
+        .compress-related-card {
+          display: block;
+          padding: 18px;
+          border: 1px solid #e3e8f2;
+          border-radius: 13px;
+          background: #faf9ff;
+          color: inherit;
+          text-decoration: none;
+          transition: 0.2s;
+        }
+
+        .compress-related-card:hover {
+          border-color: #7255e8;
+          transform: translateY(-2px);
+        }
+
+        .compress-related-card h3 {
+          margin: 0 0 7px;
+          color: #101a35;
+          font-size: 15px;
+        }
+
+        .compress-related-card p {
+          margin: 0 0 12px;
+          color: #69738d;
+          font-size: 12px;
+          line-height: 1.7;
+        }
+
+        .compress-related-card span {
+          color: #7255e8;
+          font-size: 12px;
+          font-weight: 800;
+        }
+
+        @media (max-width: 700px) {
+          .compress-level-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
         @media (max-width: 600px) {
           .compress-page {
             padding: 40px 13px 55px;
@@ -949,6 +1354,23 @@ export default function CompressPDFPage() {
           }
 
           .compress-features {
+            grid-template-columns: 1fr;
+          }
+
+          .compress-seo-section,
+          .compress-faq-section,
+          .compress-related-section {
+            margin-top: 30px;
+            padding: 19px;
+          }
+
+          .compress-seo-section h2,
+          .compress-faq-section h2,
+          .compress-related-section h2 {
+            font-size: 20px;
+          }
+
+          .compress-related-grid {
             grid-template-columns: 1fr;
           }
         }
