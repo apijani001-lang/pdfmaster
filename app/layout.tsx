@@ -1,20 +1,53 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { PromoAdStrip, SiteFooter } from "./components/SiteChrome";
 
 export const metadata: Metadata = {
-  title: "PDFMaster - Free Online PDF Tools",
+  metadataBase: new URL("https://pdfmaster-delta.vercel.app"),
+
+  title: {
+    default: "PDFMaster - Free Online PDF Tools",
+    template: "%s | PDFMaster",
+  },
+
   description:
-    "Merge, split, convert and manage PDF files online with PDFMaster. Simple and convenient PDF tools.",
+    "Use PDFMaster free online PDF tools to merge, split, compress and convert PDF files. Convert PDF to Word, PDF to JPG, JPG to PDF and more.",
+
   keywords: [
-    "PDF tools",
-    "Merge PDF",
-    "Split PDF",
-    "Compress PDF",
-    "JPG to PDF",
-    "PDF converter",
-    "Free PDF tools",
+    "free PDF tools",
+    "PDF tools online",
+    "merge PDF online",
+    "split PDF online",
+    "compress PDF online",
+    "PDF to Word converter",
+    "PDF to JPG converter",
+    "JPG to PDF converter",
+    "Word to PDF converter",
+    "protect PDF online",
   ],
+
+  verification: {
+    google: "JQpFkHSzAqT8DBHp6bNavWtfcvFfr7F2tVnZo8IELNc",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+
+  openGraph: {
+    title: "PDFMaster - Free Online PDF Tools",
+    description:
+      "Merge, split, compress and convert PDF files online with PDFMaster.",
+    url: "https://pdfmaster-delta.vercel.app",
+    siteName: "PDFMaster",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
